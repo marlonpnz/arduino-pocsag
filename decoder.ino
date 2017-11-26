@@ -193,7 +193,8 @@ void print_message(unsigned long address, byte function, char message[160])
 unsigned long extract_address(int idx)
 {
   unsigned long address = 0;
-  int pos = (idx - (idx/8) * 8)/2;
+  //int pos = (idx - (idx/8) * 8)/2;  -- this results in wrong address for positions(idx) between 8 and 15
+  int pos = ( idx % 16 )/2; // there are 16 codewords per batch and 8 possible locations (3 position bits)
   for(int i = 1; i < 19; i++)
   {
      bitWrite(address, 21-i, bitRead(wordbuffer[idx], 31-i));   
